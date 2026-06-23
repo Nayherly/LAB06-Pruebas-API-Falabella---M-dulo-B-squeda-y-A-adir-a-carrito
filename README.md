@@ -6,7 +6,7 @@
 **Semestre:** 2026-I  
 **API utilizada:** FakeStoreAPI (https://fakestoreapi.com)  
 **Sistema analizado:** Falabella Perú - Módulo Búsqueda y Carrito
-
+**Monografia:** https://docs.google.com/document/d/1-kms3XDpXRw5hB4LYTCSzb0H3LMbbVly/edit?usp=sharing&ouid=112866555820979888165&rtpof=true&sd=true
 ---
 
 ## Módulos probados
@@ -36,8 +36,8 @@
 | TC | Bug | Comportamiento esperado | Comportamiento real |
 |---|---|---|---|
 | TC-020 | API retorna 200 con body vacío para ID inexistente | 404 Not Found | 200 OK vacío |
-| TC-014 | API acepta quantity: 0 sin validar | Error 400 | 201 Created |
-| TC-015 | API acepta quantity: 9999 sin validar stock | Error 400 | 201 Created |
+| TC-008| La API devuelve los 20 productos ignorando el parámetro | 
+
 
 ---
 

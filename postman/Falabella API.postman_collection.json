@@ -1,0 +1,492 @@
+{
+  "info": {
+    "_postman_id": "439373e7-ef48-4065-9422-0b3aee746f36",
+    "name": "Falabella API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "55959793",
+    "_collection_link": "https://go.postman.co/collection/55959793-439373e7-ef48-4065-9422-0b3aee746f36?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Módulo Búsqueda",
+      "item": [
+        {
+          "name": "TC-007: Búsqueda exitosa por texto exacto",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC-007: Status 200 - búsqueda exitosa\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"TC-007: Retorna array de productos\", function () {\r",
+                  "    const json = pm.response.json();\r",
+                  "    pm.expect(json).to.be.an(\"array\");\r",
+                  "    pm.expect(json.length).to.be.greaterThan(0);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"TC-007: Productos pertenecen a la categoría buscada\", function () {\r",
+                  "    const json = pm.response.json();\r",
+                  "    json.forEach(function(product) {\r",
+                  "        pm.expect(product.category).to.equal(\"electronics\");\r",
+                  "    });\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://fakestoreapi.com/products/category/electronics",
+              "protocol": "https",
+              "host": [
+                "fakestoreapi",
+                "com"
+              ],
+              "path": [
+                "products",
+                "category",
+                "electronics"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-008: Búsqueda con campo vacío",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC-008: Status 200 - servidor responde\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"TC-008: Campo vacío - API devuelve todos los productos por defecto\", function () {\r",
+                  "    const json = pm.response.json();\r",
+                  "    pm.expect(json).to.be.an(\"array\");\r",
+                  "    pm.expect(json.length).to.be.greaterThan(0);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://fakestoreapi.com/products",
+              "protocol": "https",
+              "host": [
+                "fakestoreapi",
+                "com"
+              ],
+              "path": [
+                "products"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-009 — Búsqueda con caracteres especiales",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC-009: Servidor no colapsa con caracteres especiales\", function () {\r",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 400, 404]);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"TC-009: Respuesta no expone errores internos del servidor\", function () {\r",
+                  "    pm.expect(pm.response.code).to.not.equal(500);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://fakestoreapi.com/products/category/%3Cscript%3E",
+              "protocol": "https",
+              "host": [
+                "fakestoreapi",
+                "com"
+              ],
+              "path": [
+                "products",
+                "category",
+                "%3Cscript%3E"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-010 — Filtrado con parámetros inválidos en URL",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC-010: Servidor no colapsa con parámetro inválido\", function () {\r",
+                  "    pm.expect(pm.response.code).to.not.equal(500);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"TC-010: API responde con status válido\", function () {\r",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 400]);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"TC-010: Respuesta sigue siendo un array\", function () {\r",
+                  "    const json = pm.response.json();\r",
+                  "    pm.expect(json).to.be.an(\"array\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://fakestoreapi.com/products?limit=abc",
+              "protocol": "https",
+              "host": [
+                "fakestoreapi",
+                "com"
+              ],
+              "path": [
+                "products"
+              ],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "abc"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-020 — Búsqueda con término inexistente",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC-020: Servidor responde sin colapsar\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"TC-020: Término inexistente no retorna datos de producto\", function () {\r",
+                  "    const text = pm.response.text();\r",
+                  "    pm.expect(text).to.equal('');\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://fakestoreapi.com/products/999",
+              "protocol": "https",
+              "host": [
+                "fakestoreapi",
+                "com"
+              ],
+              "path": [
+                "products",
+                "999"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Módulo añadir al carrito",
+      "item": [
+        {
+          "name": "TC-011: Agregar producto al carrito",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC-011: Status 201 - producto agregado al carrito\", function () {\r",
+                  "    pm.response.to.have.status(201);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"TC-011: Respuesta contiene ID del carrito\", function () {\r",
+                  "    const json = pm.response.json();\r",
+                  "    pm.expect(json).to.have.property(\"id\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"TC-011: Carrito contiene el producto agregado\", function () {\r",
+                  "    const json = pm.response.json();\r",
+                  "    pm.expect(json.products[0].productId).to.equal(5);\r",
+                  "    pm.expect(json.products[0].quantity).to.equal(1);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"userId\": 1,\r\n    \"date\": \"2026-06-22\",\r\n    \"products\": [\r\n        {\r\n            \"productId\": 5,\r\n            \"quantity\": 1\r\n        }\r\n    ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://fakestoreapi.com/carts",
+              "protocol": "https",
+              "host": [
+                "fakestoreapi",
+                "com"
+              ],
+              "path": [
+                "carts"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-012: Agregar sin quantity",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC-012: Servidor responde sin colapsar\", function () {\r",
+                  "    pm.expect(pm.response.code).to.not.equal(500);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"TC-012: Sin quantity el campo llega como undefined\", function () {\r",
+                  "    const json = pm.response.json();\r",
+                  "    pm.expect(json.products[0].quantity).to.be.undefined;\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"userId\": 1,\r\n    \"date\": \"2026-06-22\",\r\n    \"products\": [\r\n        {\r\n            \"productId\": 5\r\n        }\r\n    ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://fakestoreapi.com/carts",
+              "protocol": "https",
+              "host": [
+                "fakestoreapi",
+                "com"
+              ],
+              "path": [
+                "carts"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-013 — Vaciar carrito completamente",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC-013: Status 200 - carrito eliminado\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"TC-013: Respuesta confirma eliminación del carrito\", function () {\r",
+                  "    const json = pm.response.json();\r",
+                  "    pm.expect(json).to.have.property(\"id\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"TC-013: ID del carrito eliminado es correcto\", function () {\r",
+                  "    const json = pm.response.json();\r",
+                  "    pm.expect(json.id).to.equal(7);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "https://fakestoreapi.com/carts/7",
+              "protocol": "https",
+              "host": [
+                "fakestoreapi",
+                "com"
+              ],
+              "path": [
+                "carts",
+                "7"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-014: Cantidad menor a 1 en carrito",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC-014: Servidor responde sin colapsar\", function () {\r",
+                  "    pm.expect(pm.response.code).to.not.equal(500);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"TC-014: Quantity 0 es aceptada por la API\", function () {\r",
+                  "    const json = pm.response.json();\r",
+                  "    pm.expect(json.products[0].quantity).to.equal(0);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"TC-014: Bug detectado - API no valida cantidad mínima\", function () {\r",
+                  "    const json = pm.response.json();\r",
+                  "    pm.expect(json.products[0].quantity).to.not.be.above(0);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"userId\": 1,\r\n    \"date\": \"2026-06-22\",\r\n    \"products\": [\r\n        {\r\n            \"productId\": 5,\r\n            \"quantity\": 0\r\n        }\r\n    ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://fakestoreapi.com/carts",
+              "protocol": "https",
+              "host": [
+                "fakestoreapi",
+                "com"
+              ],
+              "path": [
+                "carts"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "TC-015 — Cantidad mayor al stock disponible",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"TC-015: Servidor responde sin colapsar\", function () {\r",
+                  "    pm.expect(pm.response.code).to.not.equal(500);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"TC-015: API acepta quantity excesiva sin validar\", function () {\r",
+                  "    const json = pm.response.json();\r",
+                  "    pm.expect(json.products[0].quantity).to.equal(9999);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"TC-015: Bug detectado - API no valida cantidad máxima por stock\", function () {\r",
+                  "    const json = pm.response.json();\r",
+                  "    pm.expect(json.products[0].quantity).to.be.above(100);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"userId\": 1,\r\n    \"date\": \"2026-06-22\",\r\n    \"products\": [\r\n        {\r\n            \"productId\": 5,\r\n            \"quantity\": 9999\r\n        }\r\n    ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://fakestoreapi.com/carts",
+              "protocol": "https",
+              "host": [
+                "fakestoreapi",
+                "com"
+              ],
+              "path": [
+                "carts"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
