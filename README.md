@@ -6,7 +6,9 @@
 **Semestre:** 2026-I  
 **API utilizada:** FakeStoreAPI (https://fakestoreapi.com)  
 **Sistema analizado:** Falabella Perú - Módulo Búsqueda y Carrito
-**Monografia:** https://docs.google.com/document/d/1-kms3XDpXRw5hB4LYTCSzb0H3LMbbVly/edit?usp=sharing&ouid=112866555820979888165&rtpof=true&sd=true
+
+**Monografia:** 
+https://docs.google.com/document/d/1-kms3XDpXRw5hB4LYTCSzb0H3LMbbVly/edit?usp=sharing&ouid=112866555820979888165&rtpof=true&sd=true
 ---
 
 ## Módulos probados
